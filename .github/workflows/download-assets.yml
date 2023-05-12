@@ -8,11 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Setup PowerShell
+      uses: microsoft/powershell@v1
+      with:
+        pwsh-version: '7.1.5'
       
     - name: Download Release Assets
       run: pwsh -File download-assets.ps1
       env:
-        CACHE_NAME: download-cache-${{ hashFiles('**/source.yml') }}
+        CACHE_NAME: download-cache-${{ hashFiles('**/assets.yml') }}
         
     - name: Cache Release Assets
       uses: actions/cache@v2
