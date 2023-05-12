@@ -21,7 +21,7 @@ function Download-Asset($asset) {
     Invoke-WebRequest -Uri $assetDownloadUrl -OutFile $downloadPath
 }
 
-$assets = Get-Content "source.yml" | ConvertFrom-Yaml
+$assets = Get-Content "assets.yml" | ConvertFrom-Yaml
 foreach ($asset in $assets.assets) {
     Download-Asset $asset
 }
