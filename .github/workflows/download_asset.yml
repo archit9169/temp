@@ -17,7 +17,7 @@ jobs:
         A_PATH: "${{ github.workspace }}/${{ env.ASSET_PATH }}/*"
       with:
         path: ${{ env.A_PATH }}
-        key: download-cache-${{ hashFiles(${{ env.A_PATH }}) }}
+        key: download-cache-${{ hashFiles('${{ env.A_PATH }}') }}
         restore-keys: download-cache-
     
     - name: Download
