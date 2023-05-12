@@ -25,4 +25,4 @@ jobs:
           source/revanced-patched-*
           source/revanced-integrations-*
         key: ${{ env.CACHE_NAME }}
-        restore-keys: download-cache-*
+        restore-keys: download-cache-
