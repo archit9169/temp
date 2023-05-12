@@ -14,7 +14,7 @@ jobs:
       env:
         CACHE_NAME: download-cache-${{ hashFiles('**/assets.yml') }}
       run: |
-        Install-Module -Name powershell-yaml
+        Install-Module -Name powershell-yaml -AcceptLicense -Force
         pwsh -File download-assets.ps1
       
     - name: Cache Release Assets
