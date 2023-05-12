@@ -1,6 +1,6 @@
 # Asset releated veriables from env
 $ASSET_PATH = $env:ASSET_PATH
-$ASSET_FILE = $env.ASSET_FILE
+$ASSET_FILE = $env:ASSET_FILE
 
 # Github API link and header variables to get release info and dl link
 $GITHUB_API_LINK = "https://api.github.com/repos/{0}/releases/latest"
