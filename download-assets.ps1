@@ -1,6 +1,6 @@
-# Asset releated veriables
-$ASSET_PATH = "asset"
-$ASSET_FILE = "assets.yml"
+# Asset releated veriables from env
+$ASSET_PATH = ${{ env.ASSET_PATH }}
+$ASSET_FILE = ${{ env.ASSET_FILE }}
 
 # Github API link and header variables to get release info and dl link
 $GITHUB_API_LINK = "https://api.github.com/repos/{0}/releases/latest"
@@ -20,23 +20,31 @@ function Download-Asset($asset) {
         
         # Get asset details from list
         $item = $latestAssets | Where-Object {
-            $PSItem.name -like "*$name*"
+            $PSItem.name -like "$name-*"
         } | Select-Object -First 1
+
+        # Check if item exist
         if ($item -eq $null) { continue }
-        
-        # Download or use Cached Assets
-        $dlPath = Join-Path -Path $ASSET_PATH -ChildPath $item.name
+        $dlPath = "$ASSET_PATH/$($item.name)"
+
+        # Check and use cached assets
         if (Test-Path -Path $dlPath) {
-            Write-Host "Using cached asset $($item.name)"
+            Write-Host "Using cached $($item.name)"
             continue
         }
-        Write-Host "Downloading asset $($item.name)"
+        
+        # Remove previous version of assets
+        Write-Host "Removing old $name-*"
+        Remove-Item -Path "$ASSET_PATH/$($item.name)-*"
+
+        # Donwload new version of assets
+        Write-Host "Downloading $($item.name)"
         Invoke-WebRequest -Uri $item.browser_download_url -OutFile $dlPath
     }
 }
 
-# Call
-New-Item -Name $ASSET_PATH -ItemType Dir
+# Main Call
+New-Item -Name $ASSET_PATH -ItemType Dir -EA 0
 $assets = Get-Content $ASSET_FILE | ConvertFrom-Yaml
 foreach ($asset in $assets.assets) {
     Download-Asset $asset
