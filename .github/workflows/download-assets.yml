@@ -8,17 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Setup PowerShell
-      uses: microsoft/powershell@v1
-      with:
-        pwsh-version: '7.1.5'
       
     - name: Download Release Assets
-      run: pwsh -File download-assets.ps1
+      shell: pwsh
       env:
         CACHE_NAME: download-cache-${{ hashFiles('**/assets.yml') }}
-        
+      run: |
+        Install-Module -Name powershell-yaml
+        pwsh -File download-assets.ps1
+      
     - name: Cache Release Assets
       uses: actions/cache@v2
       with:
@@ -27,4 +25,4 @@ jobs:
           source/revanced-patched-*
           source/revanced-integrations-*
         key: ${{ env.CACHE_NAME }}
-        restore-keys: download-cache-
+        restore-keys: download-cache-*
