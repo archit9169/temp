@@ -1,0 +1,7 @@
+assets:
+  - name: revanced-cli
+    repo: j-hc/revanced-cli
+  - name: revanced-integrations
+    repo: inotia00/revanced-integrations
+  - name: revanced-patches
+    repo: inotia00/revanced-patches
