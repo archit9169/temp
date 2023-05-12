@@ -4,18 +4,20 @@ on:
 jobs:
   download_assets:
     runs-on: ubuntu-latest
+    env:
+        ASSET_FILE: assets.yml
+        ASSET_PATH: asset
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-      env:
-        ASSET_FILE: assets.yml
-        ASSET_PATH: asset
+    
     - name: Cache
       uses: actions/cache@v3
       with:
-        path: ${{ env.ASSET_PATH }}
+        path: "${{ github.workspace }}/${{ env.ASSET_PATH }}"
         key: download-cache
         restore-keys: download-cache
+    
     - name: Download
       shell: pwsh
       run: |
