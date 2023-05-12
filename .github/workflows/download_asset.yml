@@ -13,10 +13,12 @@ jobs:
     
     - name: Cache
       uses: actions/cache@v3
+      env:
+        A_PATH: "${{ github.workspace }}/${{ env.ASSET_PATH }}/*"
       with:
-        path: "${{ github.workspace }}/${{ env.ASSET_PATH }}"
-        key: download-cache
-        restore-keys: download-cache
+        path: ${{ env.A_PATH }}
+        key: download-cache-${{ hashFiles(${{ env.A_PATH }}) }}
+        restore-keys: download-cache-
     
     - name: Download
       shell: pwsh
